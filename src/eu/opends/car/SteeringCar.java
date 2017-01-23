@@ -373,6 +373,26 @@ public class SteeringCar extends Car
 
 	// Adaptive Cruise Control ***************************************************	
 	
+	private float getRate(){
+		return 1.0f;
+	}
+	
+	Layer RainLayer{
+		float SteeringCar.getRate(){
+			return proceed() + 0.3
+		}
+	}
+	Layer SnowLayer{
+		float SteeringCar.getRate(){
+			return proceed() + 0.5
+		}
+	}
+	Layer FogLayer{
+		float SteeringCar.getRate(){
+			return proceed() + 0.1
+		}
+	}
+	
 	private float getAdaptivePAccel(float pAccel)
 	{
 		brakePedalIntensity = 0f;
@@ -382,15 +402,19 @@ public class SteeringCar extends Car
 			if(belowSafetyDistance(vehicle.getPosition(),isRaining, isSnowing ,isFog))
 			{
 				//emergencyDistance を調整
-				pAccel = 0;
-				float mul = 1.0f;
-				if(isRaining){
-					mul = 1.4f;
+				pAccel = 0;				
+				float mul;
+				
+				mul = getRate();
+				
+				with(RainLayer){
+					mul = getRate()
 				}
-				if(isSnowing){
-					mul = 4.67f;
-				}if(isFog){
-					mul = 1.4f;
+				with(SnowLayer){
+					mul = getRate()
+				}
+				with(FogLayer){
+					mul = getRate()
 				}
 				
 				if(vehicle.getPosition().distance(getPosition()) < emergencyBrakeDistance* 2.0 * mul)
