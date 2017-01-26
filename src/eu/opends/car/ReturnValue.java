@@ -4,29 +4,25 @@ import eu.opends.car.SteeringCar;
 
 public class ReturnValue {
 	float mul;
+	String layer;
 	
-	Context context = new Context();
-	
-	if(isRaining){
-		with(RainLayer){
-			mul = 	context.getRate()
+	public ReturnValue{
+		Context context = new Context();
+		
+		if(isRaining){
+			layer = "RainLayer";
+		}else if(isSnowing){
+			layer = "SnowLayer";
+		}else if(isFog){
+			layer = "FogLayer"
+		}else{
+			layer = "SunnyLayer";
 		}
-	}
-
-	if(isSnowing){
-		with(SnowLayer){
-			mul = 	context.getRate()
+		
+		with(layer){
+			mul = context.setRate();
 		}
-	}
-
-	if(isFog){
-		with(FogLayer){
-			mul = 	context.getRate()
-		}
-	}
-	
-	public float getMul{
-		return mul;
+		return this.mul;
 	}
 }
 

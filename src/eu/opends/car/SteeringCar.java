@@ -19,6 +19,7 @@
 package eu.opends.car;
 
 
+
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -42,6 +43,7 @@ import eu.opends.tools.Util;
 import eu.opends.traffic.PhysicalTraffic;
 import eu.opends.traffic.TrafficObject;
 import eu.opends.trafficObjectLocator.TrafficObjectLocator;
+import origami.StartExe;
 import eu.opends.effects.EffectCenter;
 
 
@@ -373,26 +375,6 @@ public class SteeringCar extends Car
 
 	// Adaptive Cruise Control ***************************************************	
 	
-	private float getRate(){
-		return 1.0f;
-	}
-	
-	Layer RainLayer{
-		float SteeringCar.getRate(){
-			return proceed() + 0.3
-		}
-	}
-	Layer SnowLayer{
-		float SteeringCar.getRate(){
-			return proceed() + 0.5
-		}
-	}
-	Layer FogLayer{
-		float SteeringCar.getRate(){
-			return proceed() + 0.1
-		}
-	}
-	
 	private float getAdaptivePAccel(float pAccel)
 	{
 		brakePedalIntensity = 0f;
@@ -401,32 +383,32 @@ public class SteeringCar extends Car
 		{
 			if(belowSafetyDistance(vehicle.getPosition(),isRaining, isSnowing ,isFog))
 			{
-				//emergencyDistance を調整
 				pAccel = 0;				
-				float mul;
+				/*
+				 * ContextJavaから mul を持ってくる
+				 * origamiを実行するコード 
+				 */
 				
-				mul = getRate();
+				StartExe e = new StartExe("cjava.nez");
+				System.out.println(e.eval("1+2"));
+				//System.out.println(	e.evalFile("src/eu/opends4.0/car/ReturnValue.java") );
 				
-				with(RainLayer){
-					mul = getRate()
-				}
-				with(SnowLayer){
-					mul = getRate()
-				}
-				with(FogLayer){
-					mul = getRate()
-				}
+//			    File file = new File("test.txt");
+//			    String path = file.getAbsolutePath();
+//			    System.out.println("File：" + path);
 				
+				float mul = 1.0f;
 				if(vehicle.getPosition().distance(getPosition()) < emergencyBrakeDistance* 2.0 * mul)
 					brakePedalIntensity = 1f;
-					System.out.println(emergencyBrakeDistance* 2.0 * mul + ", " +emergencyBrakeDistance+ ", "+ mul);
+					//System.out.println(emergencyBrakeDistance* 2.0 * mul + ", " +emergencyBrakeDistance+ ", "+ mul);
 				}
 		}
 		
 		return pAccel;
 	}
 
-	
+
+
 	private boolean belowSafetyDistance(Vector3f obstaclePos, boolean isRaining, boolean isSnowing , boolean isFog) 
 	{	
 		float distance = obstaclePos.distance(getPosition());
@@ -514,3 +496,5 @@ public class SteeringCar extends Car
 
 
 }
+
+
