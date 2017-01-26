@@ -20,6 +20,7 @@ package eu.opends.car;
 
 
 
+
 import com.jme3.collision.CollisionResults;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -390,14 +391,12 @@ public class SteeringCar extends Car
 				 */
 				
 				StartExe e = new StartExe("cjava.nez");
-				System.out.println(e.eval("1+2"));
-				//System.out.println(	e.evalFile("src/eu/opends4.0/car/ReturnValue.java") );
+				//System.out.println(e.eval("1+2"));
+				System.out.println(	e.evalFile("/Users/apple/opends4.0/src/eu/opends/car/ReturnValue.java") );
 				
-//			    File file = new File("test.txt");
-//			    String path = file.getAbsolutePath();
-//			    System.out.println("File：" + path);
-				
-				float mul = 1.0f;
+				ReturnValue value = new ReturnValue(isRaining,isSnowing);
+				float mul = value.getValue();
+
 				if(vehicle.getPosition().distance(getPosition()) < emergencyBrakeDistance* 2.0 * mul)
 					brakePedalIntensity = 1f;
 					//System.out.println(emergencyBrakeDistance* 2.0 * mul + ", " +emergencyBrakeDistance+ ", "+ mul);
