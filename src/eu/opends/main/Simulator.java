@@ -79,6 +79,7 @@ import eu.opends.traffic.PhysicalTraffic;
 import eu.opends.trigger.TriggerCenter;
 import eu.opends.visualization.LightningClient;
 import eu.opends.visualization.MoviePlayer;
+import origami.StartExe;
 
 /**
  * 
@@ -697,6 +698,9 @@ public class Simulator extends SimulationBasics
     {    
     	try
     	{
+			StartExe e = new StartExe("cjava.nez");	
+			System.out.println(	e.evalFile("/Users/apple/opends4.0/src/eu/opends/car/ReturnValue.java") );
+    		
     		// copy native files of force feedback joystick driver
     		boolean isWindows = System.getProperty("os.name").toLowerCase().indexOf("win") >= 0;
     		if(isWindows)

@@ -81,9 +81,8 @@ public class SteeringCar extends Car
 	private boolean isFog;
 	
 	public SteeringCar(Simulator sim) 
-	{		
+	{				
 		//車のスタート位置 getStartLocation initial position
-		
 		this.sim = sim;		
 		DrivingTask drivingTask = SimulationBasics.getDrivingTask();
 		ScenarioLoader scenarioLoader = drivingTask.getScenarioLoader();
@@ -188,7 +187,6 @@ public class SteeringCar extends Car
 	// will be called, in every frame
 	public void update(float tpf)
 	{
-
 		// accelerate
 		float pAccel = 0;
 		isSnowing = EffectCenter.getIsSnowing();
@@ -385,18 +383,16 @@ public class SteeringCar extends Car
 			if(belowSafetyDistance(vehicle.getPosition(),isRaining, isSnowing ,isFog))
 			{
 				pAccel = 0;				
-				/*
-				 * ContextJavaから mul を持ってくる
-				 * origamiを実行するコード 
-				 */
+		
 				
-				StartExe e = new StartExe("cjava.nez");
-				//System.out.println(e.eval("1+2"));
-				System.out.println(	e.evalFile("/Users/apple/opends4.0/src/eu/opends/car/ReturnValue.java") );
-				
-				ReturnValue value = new ReturnValue(isRaining,isSnowing);
-				float mul = value.getValue();
+				//				e.addVarDecl("isRain", isRaining);
+				//				e.addVarDecl("isSnow", isSnowing);
 
+				float mul = 1.0f;
+				StartExe e = new StartExe("cjava.nez");	
+				e.eval("1+2;");
+				//System.out.println(	e.evalFile("/Users/apple/opends4.0/src/eu/opends/car/ReturnValue.java") );
+				
 				if(vehicle.getPosition().distance(getPosition()) < emergencyBrakeDistance* 2.0 * mul)
 					brakePedalIntensity = 1f;
 					//System.out.println(emergencyBrakeDistance* 2.0 * mul + ", " +emergencyBrakeDistance+ ", "+ mul);
